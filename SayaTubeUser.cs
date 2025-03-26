@@ -16,18 +16,20 @@ namespace modul6_103022300084
 
         public SayaTubeUser(string Username)
         {
-            Debug.Assert(Username != null && Username != "", "Username tidak boleh kosong!");
-            Debug.Assert(Username.Length <= 100, "Username maksimal 100 karakter!");
+            
             this.Username = Username;
             this.id = rand.Next(10000, 99999);
             this.uploadedVideos = new List<SayaTubeVideo>();
             Debug.Assert(this.uploadedVideos.Count == 0, "List video harus kosong saat inisialisasi");
+            Debug.Assert(Username != null, "Username tidak boleh kosong!");
+            Debug.Assert(Username.Length <= 100, "Username maksimal 100 karakter!");
         }
         public int GetTotalVideoPlayCount()
         {
             int total = 0;
             foreach (var video in uploadedVideos)
             {
+                Debug.Assert(video != null, "Video di list tidak boleh null");
                 total += video.PlayCount;
             }
             return total;
@@ -38,15 +40,23 @@ namespace modul6_103022300084
             {
                 throw new ArgumentNullException("Video tidak boleh kosong!");
             }
+            if (video.PlayCount >= int.MaxValue)
+            {
+                throw new ArgumentException("Video play count sudah maksimum");
+            }
             this.uploadedVideos.Add(video);
+
+            Debug.Assert(uploadedVideos.Contains(video), "Video harus dalam list setelah ditambahkan");
         }
         public void PrintAllVideoPlaycount()
         {
             Console.WriteLine("User: " + this.Username);
-            for (int i = 0; i < uploadedVideos.Count; i++)
+            int count = Math.Min(uploadedVideos.Count, 8);
+            for (int i = 0; i < count; i++)
             {
                 Console.WriteLine($"Video {i + 1} judul: {uploadedVideos[i].Title}");
             }
+            Debug.Assert(count <= 8, "Jumlah video maksimal yang di-print adalah 8");
         }
         public List<SayaTubeVideo> UploadedVideos => uploadedVideos;
     }

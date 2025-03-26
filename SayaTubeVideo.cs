@@ -15,7 +15,7 @@ namespace modul6_103022300084
 
         public SayaTubeVideo(string title)
         {
-            Debug.Assert(title != null && title != "", "Judul video tidak boleh kosong!");
+            Debug.Assert(title != null, "Judul video tidak boleh kosong!");
             Debug.Assert(title.Length <= 200, "Judul video maksimal 200 karakter!");
             this.id = rand.Next(10000, 99999);
             this.title = title;
@@ -43,6 +43,10 @@ namespace modul6_103022300084
             Console.WriteLine("ID: " + this.id);
             Console.WriteLine("Title: " + this.title);
             Console.WriteLine("Play Count: " + this.playCount);
+        }
+        public string Gettitle()
+        {
+            return title;
         }
 
         public int PlayCount => playCount;
